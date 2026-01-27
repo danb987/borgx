@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights & Resources | AI & Metallurgy Consulting</title>
+    <meta name="description" content="Latest insights on AI in metallurgy, industry trends, case studies, and thought leadership from our experts.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'steel-blue': '#2C3E50',
+                        'copper-orange': '#E67E22',
+                        'bright-orange': '#FF6B35',
+                        'light-gray': '#F8F9FA',
+                        'charcoal': '#333333',
+                        /*new colours*/
+                        'dark-navy-blue': `#0F1526` ,
+                        'neon-green-light': '#99FF33',
+                        'neon-green': '#73FF00'
+                    },
+                    fontFamily: {
+                        'display': ['Crimson Pro', 'serif'],
+                        'body': ['Inter', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B35, #E67E22);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+        
+        .article-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(44, 62, 80, 0.1);
+        }
+        
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #FF6B35, #E67E22);
+            color: white;
+        }
+        
+        .article-content {
+            display: none;
+        }
+        
+        .article-content.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="font-body bg-light-gray text-charcoal">
+    <!-- Navigation -->
+ <!--old background colour   <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm"> -->
+    <nav style="background-color: #0f172a;" class="fixed top-0 w-full backdrop-blur-sm z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                      <!-- Replace text logo with your image logo -->
+                        <img src="resources/Logo.png" alt="Logo" class="h-20 w-auto" />
+                </div>
+
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-white hover:text-copper-orange transition-colors duration-200 font-medium">Home</a>
+                        <a href="about.html" class="text-white hover:text-copper-orange transition-colors duration-200 font-medium">About Us</a>
+                        <a href="services.html" class="text-white hover:text-copper-orange transition-colors duration-200 font-medium">Our Services</a>
+                        <button onclick="openContactModal()" class="btn-primary text-white px-6 py-2 rounded-lg font-medium">Book a Call</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <!--old background colour <section class="pt-24 pb-16 bg-gradient-to-br from-steel-blue to-gray-800 text-white">-->
+    <section class="pt-24 pb-16 text-white" style="background: rgb(4, 21, 58);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl lg:text-6xl font-display font-bold mb-6">
+                    Insights & Resources
+                </h1>
+                <p class="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto">
+                    Latest thinking on AI, industry trends, and practical guides for digital transformation
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="py-12 bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-4">
+                <button class="filter-btn active px-6 py-3 rounded-lg font-medium" data-filter="all">
+                    All Articles
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-lg font-medium bg-gray-100 text-charcoal hover:bg-gray-200" data-filter="trends">
+                    Industry Trends
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-lg font-medium bg-gray-100 text-charcoal hover:bg-gray-200" data-filter="case-studies">
+                    Case Studies
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-lg font-medium bg-gray-100 text-charcoal hover:bg-gray-200" data-filter="guides">
+                    How-To Guides
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-lg font-medium bg-gray-100 text-charcoal hover:bg-gray-200" data-filter="research">
+                    Research
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Article -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <div class="text-sm text-copper-orange font-medium mb-2">Featured Article</div>
+                    <h2 class="text-4xl font-display font-bold text-steel-blue mb-6">
+                        AI adoption in Metallurgy: 2025 and Beyond
+                    </h2>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Explore how artificial intelligence is reshaping industries, from predictive maintenance to quality control, and what the future holds for AI-driven transformation.
+                    </p>
+                    <div class="flex items-center space-x-4 mb-8">
+                        <div class="text-sm text-gray-500">November, 2025</div>
+                        <div class="text-sm text-gray-500">15 min read</div>
+                        <div class="text-sm bg-copper-orange/10 text-copper-orange px-3 py-1 rounded-full">Industry Trends</div>
+                    </div>
+        <!--old             <a href="#" class="btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg">
+                        Read Full Article
+                    </a> -->
+                         <a href="resources/articles/WhitePaper_AI_metallurgy.pdf" target="_blank" class="btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg">
+                         Read Full Article
+                        </a>
+                </div>
+                
+                <div class="reveal">
+                    <img src="resources/articles/ai_metallurgy_fig.jpg" alt="AI in Metallurgy" class="rounded-xl shadow-2xl w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Grid -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="article-content active" data-category="all">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Article 1 -->
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/Synthetic_data_fig2.jpg" alt="Synthetic Data in Manufacturing" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">Case Studies</span>
+                                <span class="text-xs text-gray-500">January, 2026</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                Synthetic Data Generation in Manufacturing
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Synthetic data generation has emerged as a transformative solution for manufacturing. The global synthetic data generation market, 
+                                is projected to reach $2.67-3.5 billion by 2030-2031 (~40% growth from 2024).
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">5 min read</span>
+                                <a href="resources/articles/Synthetic Data Generation in Manufacturing_16.01.26.pdf" target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 2 -->
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/5Steps_fig.jpg" alt="Machine Learning in Manufacturing" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">How-To Guides</span>
+                                <span class="text-xs text-gray-500">January, 2026</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                5 Steps to Prepare Your Manufacturing Data for AI
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                A practical guide to data preparation and cleansing for AI implementation in industrial environments, with real-world examples and best practices.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">5 min read</span>
+                                <a href="resources/articles/5Steps_Prepare_Manufacturing_Data_19.01.26.pdf" target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 3 -->
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/ROI_fig.jpg" alt="Manufacturing Analytics" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">Research</span>
+                                <span class="text-xs text-gray-500">December, 2025</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                ROI Analysis: AI Implementation in Steel Production
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Comprehensive analysis of return on investment for AI implementations across 20+ steel manufacturing facilities, including cost-benefit breakdowns.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">15 min read</span>
+                                <a href="resources/articles/ROI_paper_24.11.25.pdf" target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 4 -->
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/Edge_AI_fig.jpg" alt="Industrial AI Systems" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">Industry Trends</span>
+                                <span class="text-xs text-gray-500">December, 2025</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                The Rise of Edge AI in Heavy Manufacturing
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Why edge computing is becoming essential for real-time AI applications in manufacturing, and how to implement it effectively in industrial settings.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">5 min read</span>
+                                <a href="resources/articles/Edge_AI_heavy_industry_10.11.25.pdf " target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 5 -->
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/Predictive_main_fig.jpg" alt="Steel Plant Operations" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">Case Studies</span>
+                                <span class="text-xs text-gray-500">January, 2026</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                AI-Driven Predictive Maintenance in Steel Manufacturing
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                How AI models reduced unplanned downtime by 25% and increase thev equipment lifespan by 10–25%, through predictive maintenance implementation.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">5 min read</span>
+                                <a href="resources/articles/Case Study_previctive_maint_30.10.25.pdf" target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 6 -->
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/Building_AI_roles_fig1.jpg" alt="Manufacturing Automation" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">How-To Guides</span>
+                                <span class="text-xs text-gray-500">December, 2025</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                Building Your AI Team: Skills and Roles for Manufacturing
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Essential guide to structuring your organization for AI success, including key roles, skill requirements, and team composition strategies.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">10 min read</span>
+                                <a href="resources/articles/Building_AI_roles_12.11.25.pdf" target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- Industry Trends Articles -->
+            <div class="article-content" data-category="trends">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/ai_metallurgy_fig.jpg" alt="Industrial AI Systems" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">Industry Trends</span>
+                                <span class="text-xs text-gray-500">November, 2025</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                AI adoption in Metallurgy: 2025 and Beyond
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Explore how artificial intelligence is reshaping industries, from predictive maintenance to quality control, and what the future holds for AI-driven transformation.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">15 min read</span>
+                                <a href="resources/articles/WhitePaper_AI_metallurgy.pdf" target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/Edge_AI_fig.jpg" alt="AI Future" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">Industry Trends</span>
+                                <span class="text-xs text-gray-500">December, 2025</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                The Rise of Edge AI in Heavy Manufacturing
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Why edge computing is becoming essential for real-time AI applications in manufacturing, and how to implement it effectively in industrial settings.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">5 min read</span>
+                                <a href="resources/articles/Edge_AI_heavy_industry_10.11.25.pdf" target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- Case Studies Articles -->
+            <div class="article-content" data-category="case-studies">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/Synthetic_data_fig2.jpg" alt="Synthetic Data in Manufacturing" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">Case Studies</span>
+                                <span class="text-xs text-gray-500">January, 2026</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                Synthetic Data Generation in Manufacturing
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Synthetic data generation has emerged as a transformative solution for manufacturing. 
+                                The global synthetic data generation market, is projected to reach $2.67-3.5 billion by 2030-2031 (~40% growth from 2024).
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">5 min read</span>
+                                <a href="resources/articles/Synthetic Data Generation in Manufacturing_16.01.26.pdf" target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/Predictive_main_fig.jpg" alt="Steel Plant Operations" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">Case Studies</span>
+                                <span class="text-xs text-gray-500">January, 2026</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                Predictive Maintenance Success at MegaSteel
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                How machine learning models reduced unplanned downtime by 25% and saved $1.5M annually through predictive maintenance implementation.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">5 min read</span>
+                                <a href="resources/articles/Case Study_previctive_maint_30.10.25.pdf" target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- How-To Guides Articles -->
+            <div class="article-content" data-category="guides">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/5Steps_fig.jpg" alt="Machine Learning in Manufacturing" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">How-To Guides</span>
+                                <span class="text-xs text-gray-500">December, 2025</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                5 Steps to Prepare Your Manufacturing Data for AI
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                A practical guide to data preparation and cleansing for AI implementation in industrial environments, with real-world examples and best practices.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">5 min read</span>
+                                <a href="resources/articles/5Steps_Prepare_Manufacturing_Data_19.01.26.pdf" target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/Building_AI_roles_fig1.jpg" alt="Manufacturing Automation" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">How-To Guides</span>
+                                <span class="text-xs text-gray-500">December, 2025</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                Building Your AI Team: Skills and Roles for Manufacturing
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Essential guide to structuring your organization for AI success, including key roles, skill requirements, and team composition strategies.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">10 min read</span>
+                                <a href="resources/articles/Building_AI_roles_12.11.25.pdf" target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- Research Articles -->
+            <div class="article-content" data-category="research">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <article class="article-card bg-white rounded-xl overflow-hidden shadow-lg reveal">
+                        <img src="resources/articles/ROI_fig.jpg" alt="Manufacturing Analytics" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <span class="text-xs bg-copper-orange/10 text-copper-orange px-2 py-1 rounded">Research</span>
+                                <span class="text-xs text-gray-500">December 2025</span>
+                            </div>
+                            <h3 class="text-xl font-display font-semibold text-steel-blue mb-3">
+                                ROI Analysis: AI Implementation in Steel Production
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Comprehensive analysis of return on investment for AI implementations across 20+ steel manufacturing facilities, including cost-benefit breakdowns.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">15 min read</span>
+                                <a href="resources/articles/ROI_paper_24.11.25.pdf" target="_blank" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Signup -->
+    <!-- old <section class="py-20 bg-steel-blue text-white">-->
+    <section style="background-color: rgb(4, 21, 58);" class="py-20 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-display font-bold mb-6">
+                Stay Updated with AI Insights
+            </h2>
+            <p class="text-xl text-gray-300 mb-8">
+ <!-- ACTIVATE LATER      Get the latest articles, case studies, and industry analysis delivered to your inbox monthly.-->
+             Read the latest articles, case studies, and industry analysis.
+            </p>
+            
+<!--ACTIVATE LATER  <form class="max-w-md mx-auto flex gap-4">
+                <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-lg text-charcoal focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                <button type="submit" class="btn-primary text-white px-8 py-3 rounded-lg font-semibold">
+                    Subscribe
+                </button>
+            </form>
+            
+            <p class="text-sm text-gray-400 mt-4">
+                No spam, unsubscribe at any time. We respect your privacy.
+            </p> -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!--old colour <footer class="bg-charcoal text-white py-12">-->
+    <footer class="bg-dark-navy-blue text-white py-12"> 
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-2xl font-display font-bold mb-4">
+                    BorgX Consulting
+                </div>
+                <p class="text-gray-400 mb-6">Transforming industry through artificial intelligence</p>
+                <div class="border-t border-gray-700 pt-8">
+                    <p class="text-gray-400 text-sm">
+                        © 2025 BorgX Consulting. All rights reserved. | From Data to Innovation
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-8 relative">
+            <button onclick="closeContactModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            
+            <h3 class="text-2xl font-display font-bold text-steel-blue mb-6">Book a Consultation</h3>
+            
+            <form id="contactForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                    <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Company</label>
+                    <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Service Interest</label>
+                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                        <option>Data & AI Readiness Audit</option>
+                        <option>Synthetic Data Generation</option>
+                        <option>Education & Coaching</option>
+                        <option>General Consultation</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                    <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent"></textarea>
+                </div>
+                <button type="submit" class="w-full btn-primary text-white py-3 rounded-lg font-semibold">
+                    Book Consultation
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const articleContents = document.querySelectorAll('.article-content');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.dataset.filter;
+                    
+                    // Update buttons
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.classList.add('bg-gray-100', 'text-charcoal', 'hover:bg-gray-200');
+                    });
+                    this.classList.add('active');
+                    this.classList.remove('bg-gray-100', 'text-charcoal', 'hover:bg-gray-200');
+                    
+                    // Update content
+                    articleContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    const targetContent = document.querySelector(`[data-category="${filter}"]`);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                });
+            });
+            
+            // Newsletter form
+            const newsletterForm = document.querySelector('form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = this.querySelector('input[type="email"]').value;
+                    const button = this.querySelector('button');
+                    const originalText = button.textContent;
+                    
+                    button.textContent = 'Subscribing...';
+                    button.disabled = true;
+                    
+                    // Simulate API call
+                    setTimeout(() => {
+                        button.textContent = 'Subscribed!';
+                        button.style.background = '#27AE60';
+                        
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                            button.disabled = false;
+                            button.style.background = '';
+                            this.reset();
+                        }, 2000);
+                    }, 1000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

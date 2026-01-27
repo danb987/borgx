@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borgx</title>
+    <meta name="description" content="Expert AI consulting for metallurgy and heavy industries. Data readiness audits, synthetic data generation, and AI education for industrial transformation.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/splitting@1.0.6/dist/splitting.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'steel-blue': '#2C3E50',
+                        'copper-orange': '#E67E22',
+                        'bright-orange': '#FF6B35',
+                        'light-gray': '#F8F9FA',
+                        'charcoal': '#333333',
+                        /*new colours*/
+                        'dark-navy-blue': `#0F1526` ,
+                        'neon-green-light': '#99FF33',
+                        'neon-green': '#73FF00'
+                    },
+                    fontFamily: {
+                        'display': ['Crimson Pro', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .hero-bg {
+         /*  background: linear-gradient(135deg, #2C3E50 0%, #34495E 50%, #2C3E50 100%); */
+            background: rgb(4, 21, 58);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #E67E22, #FF6B35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(44, 62, 80, 0.15);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B35, #E67E22);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="font-body bg-light-gray text-charcoal">
+    <!-- Navigation -->
+ <!--old   <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">-->
+ <!--   <nav style="background-color: rgb(4, 21, 58);"class="fixed top-0 w-full backdrop-blur-sm z-50 shadow-sm"></nav>    
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                -->
+                     <!-- Replace text logo with your image logo -->
+ <!--            <img src="resources/Logo.png" alt="Logo" class="h-20 w-auto" />
+                -->
+ <!--old                   <div class="text-2xl font-display font-bold text-steel-blue">
+                        AI<span class="text-copper-orange">Met</span>
+                    </div> -->
+
+<!--                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="about.html" class="text-charcoal hover:text-copper-orange transition-colors duration-200 font-medium">About Us</a>
+                        <a href="services.html" class="text-charcoal hover:text-copper-orange transition-colors duration-200 font-medium">Our Services</a>
+                        <a href="insights.html" class="text-charcoal hover:text-copper-orange transition-colors duration-200 font-medium">Insights</a>
+                        <button onclick="openContactModal()" class="btn-primary text-white px-6 py-2 rounded-lg font-medium">Book a Call</button>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-charcoal hover:text-copper-orange">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav> -->
+
+
+<!-- NEW Navigation -->
+<!-- <nav style="background-color: rgb(4, 21, 58);" class="fixed top-0 w-full backdrop-blur-sm z-50 shadow-sm"> a different blue-->
+<nav style="background-color: #0f172a;" class="fixed top-0 w-full backdrop-blur-sm z-50 shadow-sm">
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <div class="flex items-center">
+                <!-- Replace text logo with your image logo -->
+                <img src="resources/Logo.png" alt="Logo" class="h-20 w-auto" />
+            </div>
+            <div class="hidden md:block">
+                <div class="ml-10 flex items-baseline space-x-8">
+                    <a href="about.html" class="text-white hover:text-copper-orange transition-colors duration-200 font-medium">About Us</a>
+                    <a href="services.html" class="text-white hover:text-copper-orange transition-colors duration-200 font-medium">Our Services</a>
+                    <a href="insights.html" class="text-white hover:text-copper-orange transition-colors duration-200 font-medium">Insights</a>
+                    <button onclick="openContactModal()" class="btn-primary text-white px-6 py-2 rounded-lg font-medium">Book a Call</button>
+                </div>
+            </div>
+            <div class="md:hidden">
+                <button class="text-white hover:text-copper-orange">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center pt-16">
+        <canvas id="particleCanvas" class="particle-canvas"></canvas>
+        <div class="hero-content w-full">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="text-center lg:text-left">
+                        <h1 class="text-5xl lg:text-7xl font-display font-bold text-white mb-6 leading-tight">
+                            <span class="block">
+                                <!--Turning Industrial Data into AI ROI-->
+                                Get AI-Ready: <br> Data + People
+                            </span>
+ <!--                           <span class="block text-gradient" data-splitting>Innovation</span> -->
+                        </h1>
+  <!--                      <div class="text-xl lg:text-2xl text-gray-300 mb-8 font-medium">
+                            <span id="typed-tagline"></span>
+                        </div>     nice animated sub-header -->
+                        <p class="text-2xl lg:text-3xl font-display italic text-white mb-8 leading-tight">
+                        AI readiness assessments and team capability training for metal production and advanced materials companies
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <button onclick="openContactModal()" class="btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg">
+                                Book a Call With Us
+                            </button>
+                            <a href="services.html" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-steel-blue transition-all duration-300">
+                                Explore Our Services
+                            </a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <img src="resources/hero-bg_test2.jpg" alt="AI and Metallurgy Integration" class="rounded-lg shadow-2xl w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-steel-blue/20 to-transparent rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who We Help Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl lg:text-5xl font-display font-bold text-steel-blue mb-6">
+                    Who We Help
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Empowering industrial leaders across the metallurgy and materials science sectors with AI-driven transformation
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 reveal">
+                    <div class="w-16 h-16 bg-copper-orange/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-copper-orange" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-display font-semibold text-steel-blue mb-4">Steel & Metal Producers</h3>
+                    <p class="text-gray-600 mb-6">Optimize production processes, reduce energy consumption, and improve quality control through AI-powered analytics and predictive maintenance.</p>
+                    <div class="text-copper-orange font-medium">→ 15% reduction in unplanned downtime</div>
+                </div>
+
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 reveal">
+                    <div class="w-16 h-16 bg-copper-orange/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-copper-orange" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-display font-semibold text-steel-blue mb-4">Mining Companies</h3>
+                    <p class="text-gray-600 mb-6">Enhance ore processing efficiency, predict equipment failures, and optimize resource extraction with machine learning models.</p>
+                    <div class="text-copper-orange font-medium">→ 30% improvement in process efficiency</div>
+                </div>
+
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 reveal">
+                    <div class="w-16 h-16 bg-copper-orange/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-copper-orange" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 011.286.286l1.714 4a1 1 0 01-.257 1.286l-3.443 3.442a1 1 0 00-.294.816l.15 2.701a1 1 0 001.276.926l7-3a1 1 0 00-.788-1.838L12.2 11.2l-1.716-4.286a1 1 0 00-1.286-.286l-4 1.714a1 1 0 01-1.286-.286L2.08 10.394a1 1 0 00-.788-1.838l7-3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-display font-semibold text-steel-blue mb-4">Manufacturing Plants</h3>
+                    <p class="text-gray-600 mb-6">Implement predictive quality control, automate inspection processes, and reduce waste through computer vision and AI analytics.</p>
+                    <div class="text-copper-orange font-medium">→ 40% reduction in defect rates</div>
+                </div>
+
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 reveal">
+                    <div class="w-16 h-16 bg-copper-orange/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-copper-orange" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-display font-semibold text-steel-blue mb-4">R&D Institutions</h3>
+                    <p class="text-gray-600 mb-6">Accelerate materials discovery, optimize alloy compositions, and enhance research capabilities with AI-driven simulation and modeling.</p>
+                    <div class="text-copper-orange font-medium">→ 60% faster materials development</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Preview -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl lg:text-5xl font-display font-bold text-steel-blue mb-6">
+                    Our Services
+                </h2>
+               <p class="text-xl text-gray-600 max-w-3xl mx-auto"> 
+                    Comprehensive AI solutions tailored for the metallurgy and materials industry
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl p-8 shadow-lg reveal">
+                    <img src="resources/articles/Data_audit_service1.jpg" alt="Data & AI Readiness Audit" class="w-full h-48 object-cover rounded-lg mb-6">
+                    <h3 class="text-2xl font-display font-semibold text-steel-blue mb-4">Data & AI Readiness Audit</h3>
+                    <p class="text-gray-600 mb-6">Comprehensive assessment of your data infrastructure, processes, and organizational readiness for AI implementation.</p>
+                    <a href="services.html#audit" class="text-copper-orange font-medium hover:text-neon-green-light transition-colors">
+                        Learn More →
+                    </a>
+                </div>
+
+         <!-- NOT YET       
+                <div class="bg-white rounded-xl p-8 shadow-lg reveal">
+                    <img src="#" alt="Synthetic Data Generation" class="w-full h-48 object-cover rounded-lg mb-6">
+                    <h3 class="text-2xl font-display font-semibold text-steel-blue mb-4">Synthetic Data Generation</h3>
+                    <p class="text-gray-600 mb-6">Create high-quality synthetic datasets for training AI models when real data is limited, sensitive, or unavailable.</p>
+                    <a href="services.html#synthetic" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                        Learn More →
+                    </a>
+                </div>
+        -->
+                <div class="bg-white rounded-xl p-8 shadow-lg reveal">
+                    <img src="resources/articles/Education_service_fig1.jpg" alt="Education & Coaching" class="w-full h-48 object-cover rounded-lg mb-6">
+                    <h3 class="text-2xl font-display font-semibold text-steel-blue mb-4">Education & Coaching</h3>
+                    <p class="text-gray-600 mb-6"> Comprehensive, modular training programs and workshop series designed to systematically build AI capabilities within your organization. </p>
+                    <a href="services.html#education" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                        Learn More →
+                    </a>
+                </div>
+
+                <div class="bg-white rounded-xl p-8 shadow-lg reveal">
+                    <img src="resources/articles/Utbildning_service_fig2.jpg" alt="Education & Coaching" class="w-full h-48 object-cover rounded-lg mb-6">
+                    <h3 class="text-2xl font-display font-semibold text-steel-blue mb-4">Utbildning & Livslångt Lärande</h3>
+                    <p class="text-gray-600 mb-6">Flexibla AI‑utbildningar för metallindustrin, modulära, behovsanpassade och tillämpbara i produktion, kvalitet, 
+                        underhåll och processoptimering.</p>
+                    <a href="services.html#utbildning" class="text-copper-orange font-medium hover:text-bright-orange transition-colors">
+                        Learn More →
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+ <!--old       <section class="py-20 bg-steel-blue text-white"> -->
+   <section style="background-color: rgb(4, 21, 58);" class="py-20 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl lg:text-5xl font-display font-bold mb-6">
+                    Ready to Transform Your Operations?
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Let's discuss how AI can drive innovation and efficiency in your industry or manufacturing processes.
+                </p>
+            </div>
+            
+          <!--  <div class="grid lg:grid-cols-3 gap-8 mb-12">-->
+            
+            <div class="grid lg:grid-cols-1 gap-8 mb-12">    
+                <!--<div class="text-center reveal">
+                    <div class="w-16 h-16 bg-copper-orange/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-copper-orange" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-display font-semibold mb-2">Phone</h3>
+                    <p class="text-gray-300">+1 (555) 123-4567</p>
+                </div> -->
+
+                <div class="text-center reveal">
+                    <div class="w-16 h-16 bg-copper-orange/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-12 h-12 text-copper-orange" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-display font-semibold mb-2">Email</h3>
+                    <p class="text-gray-300">contact@borgx.eu</p>
+                </div>
+
+             <!--  <div class="text-center reveal">
+                    <div class="w-16 h-16 bg-copper-orange/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-copper-orange" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-display font-semibold mb-2">Location</h3>
+                    <p class="text-gray-300">Uppsala, Sweden</p>
+                </div>  -->
+            </div>
+            
+            <div class="text-center reveal">
+                <button onclick="openContactModal()" class="btn-primary text-white px-12 py-4 rounded-lg font-semibold text-lg">
+                    Start Your AI Transformation
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+<!--old    <footer class="bg-charcoal text-white py-12"> -->
+         <footer class="bg-dark-navy-blue text-white py-12"> 
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-2xl font-display font-bold mb-4">
+  <!--              AI<span class="text-copper-orange">Met</span> Consulting*/-->
+                    BorgX Consulting
+                </div>
+                <p class="text-gray-400 mb-6">Transforming industry through artificial intelligence</p>
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="#" class="text-gray-400 hover:text-copper-orange transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+              <!--      <a href="#" class="text-gray-400 hover:text-copper-orange transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a> -->
+                </div>
+                <div class="border-t border-gray-700 pt-8">
+                    <p class="text-gray-400 text-sm">
+                        © 2025 BorgX Consulting. All rights reserved. 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!--old  Contact Modal -->
+   <!--old  <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-8 relative">
+            <button onclick="closeContactModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            
+            <h3 class="text-2xl font-display font-bold text-steel-blue mb-6">Book a Consultation</h3>
+            
+            <form id="contactForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                    <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Company</label>
+                    <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Service Interest</label>
+                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                        <option>Data & AI Readiness Audit</option>
+                        <option>Synthetic Data Generation</option>
+                        <option>Education & Coaching</option>
+                        <option>General Consultation</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                    <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent"></textarea>
+                </div>
+                <button type="submit" class="w-full btn-primary text-white py-3 rounded-lg font-semibold">
+                    Book Consultation
+                </button>
+            </form>
+        </div>
+    </div> -->
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-xl max-w-2xl w-full p-8 relative" style="max-height: 90vh; overflow-y: auto;">
+        <button onclick="closeContactModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-10">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        
+        <h3 class="text-2xl font-display font-bold text-steel-blue mb-6">Book a Consultation</h3>
+        
+        <!-- Calendly inline widget begin -->
+        <div class="calendly-inline-widget" data-url="https://calendly.com/dr-d-berg987/30min" style="min-width:320px;height:700px;"></div>
+        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+        <!-- Calendly inline widget end -->
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

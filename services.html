@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | AI & Metallurgy Consulting</title>
+    <meta name="description" content="Comprehensive AI consulting services. Data readiness audits, synthetic data generation, and AI education programs.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'steel-blue': '#2C3E50',
+                        'copper-orange': '#E67E22',
+                        'bright-orange': '#FF6B35',
+                        'light-gray': '#F8F9FA',
+                        'charcoal': '#333333',
+                         /*new colours*/
+                        'dark-navy-blue': `#0F1526` ,
+                        'neon-green-light': '#99FF33',
+                        'neon-green': '#73FF00'
+                    },
+                    fontFamily: {
+                        'display': ['Crimson Pro', 'serif'],
+                        'body': ['Inter', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .service-tab {
+            transition: all 0.3s ease;
+        }
+        
+        .service-tab.active {
+            background: linear-gradient(135deg, #FF6B35, #E67E22);
+            color: white;
+        }
+        
+        .service-content {
+            display: none;
+        }
+        
+        .service-content.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B35, #E67E22);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+    </style>
+</head>
+<body class="font-body bg-light-gray text-charcoal">
+
+    <!-- old Navigation -->
+    <!-- <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-display font-bold text-steel-blue">
+                        AI<span class="text-copper-orange">Met</span>
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-charcoal hover:text-copper-orange transition-colors duration-200 font-medium">Home</a>
+                        <a href="about.html" class="text-charcoal hover:text-copper-orange transition-colors duration-200 font-medium">About Us</a>
+                        <a href="services.html" class="text-copper-orange font-medium">Our Services</a>
+                        <a href="insights.html" class="text-charcoal hover:text-copper-orange transition-colors duration-200 font-medium">Insights</a>
+                        <button onclick="openContactModal()" class="btn-primary text-white px-6 py-2 rounded-lg font-medium">Book a Call</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav> -->
+    
+    <!-- NEW Navigation -->
+    <!-- <nav style="background-color: rgb(4, 21, 58);" class="fixed top-0 w-full backdrop-blur-sm z-50 shadow-sm"> a different blue-->
+    <nav style="background-color: #0f172a;" class="fixed top-0 w-full backdrop-blur-sm z-50 shadow-sm">
+    
+         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+             <div class="flex justify-between items-center h-20">
+                 <div class="flex items-center">
+                      <!-- Replace text logo with your image logo -->
+                        <img src="resources/Logo.png" alt="Logo" class="h-20 w-auto" />
+                </div>
+              <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                         <a href="index.html" class="text-white hover:text-copper-orange transition-colors duration-200 font-medium">Home</a>
+                         <a href="about.html" class="text-white hover:text-copper-orange transition-colors duration-200 font-medium">About Us</a>
+                         <a href="insights.html" class="text-white hover:text-copper-orange transition-colors duration-200 font-medium">Insights</a>
+                         <button onclick="openContactModal()" class="btn-primary text-white px-6 py-2 rounded-lg font-medium">Book a Call</button>
+                     </div>
+                </div>
+           <div class="md:hidden">
+                <button class="text-white hover:text-copper-orange">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                 </div> 
+            </div>
+        </div>
+      </nav>
+
+    <!-- Hero Section -->
+   <!-- old backgrould colour <section class="pt-24 pb-16 bg-gradient-to-br from-steel-blue to-gray-800 text-white"> -->
+        <section class="pt-24 pb-16 text-white" style="background: rgb(4, 21, 58);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl lg:text-6xl font-display font-bold mb-6">
+                    Our Services
+                </h1>
+                <p class="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto">
+                    Comprehensive AI solutions designed specifically for the metallurgy and materials industry
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Tabs -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="service-tab active px-8 py-4 rounded-lg font-semibold text-lg" data-service="audit">
+                    Data & AI Readiness Audit
+                </button>
+            <!-- NOT YET            <button class="service-tab px-8 py-4 rounded-lg font-semibold text-lg bg-gray-100 text-charcoal hover:bg-gray-200" data-service="synthetic">
+                    Synthetic Data Generation
+                </button>
+            -->
+                <button class="service-tab px-8 py-4 rounded-lg font-semibold text-lg bg-gray-100 text-charcoal hover:bg-gray-200" data-service="education">
+                    Education & Coaching
+                </button>
+
+                <button class="service-tab px-8 py-4 rounded-lg font-semibold text-lg bg-gray-100 text-charcoal hover:bg-gray-200" data-service="utbildning">
+                    Utbildning & Livslångt Lärande
+                </button>
+            </div>
+
+            <!-- Data & AI Readiness Audit -->
+            <div id="audit" class="service-content active">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-steel-blue mb-6">
+                            Data & AI Readiness Audit
+                        </h2>
+                        <p class="text-xl text-gray-600 mb-8">
+                            Comprehensive assessment of your organization's readiness for AI implementation, focusing on data infrastructure, processes, and cultural factors specific to metallurgy and manufacturing.
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-copper-orange rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-steel-blue mb-2">Data Infrastructure Assessment</h3>
+                                    <p class="text-gray-600">Evaluate your current data collection, storage, and processing capabilities. Identify gaps and opportunities for AI-ready data architecture.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-copper-orange rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-steel-blue mb-2">Process Mapping & Optimization</h3>
+                                    <p class="text-gray-600">Map your current manufacturing processes and identify high-impact areas where AI can drive significant improvements.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-copper-orange rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-steel-blue mb-2">Organizational Readiness</h3>
+                                    <p class="text-gray-600">Assess your team's AI literacy, change management capabilities, and cultural readiness for digital transformation.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <button onclick="openContactModal()" class="btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg">
+                                Start Your Audit
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="bg-gray-50 rounded-xl p-8">
+                            <h3 class="text-2xl font-display font-semibold text-steel-blue mb-6">Audit Process</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-8 h-8 bg-steel-blue text-white rounded-full flex items-center justify-center font-bold">1</div>
+                                    <span class="text-gray-700">Initial consultation and scope definition</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-8 h-8 bg-steel-blue text-white rounded-full flex items-center justify-center font-bold">2</div>
+                                    <span class="text-gray-700">On-site assessment and data collection</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-8 h-8 bg-steel-blue text-white rounded-full flex items-center justify-center font-bold">3</div>
+                                    <span class="text-gray-700">Analysis and recommendations development</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-8 h-8 bg-steel-blue text-white rounded-full flex items-center justify-center font-bold">4</div>
+                                    <span class="text-gray-700">Comprehensive report and roadmap presentation</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 p-6 bg-white rounded-lg border-l-4 border-copper-orange">
+                                <h4 class="font-semibold text-steel-blue mb-2">Typical Timeline</h4>
+                                <p class="text-gray-600">4-6 weeks from initial consultation to final report delivery</p>
+                                <a href="resources/articles/AI_audit_service_description_24.01.26.pdf"  target="_blank" rel="noopener noreferrer" class="inline-block mt-2 px-4 py-2 bg-copper-orange text-white font-medium rounded hover:bg-copper-orange/90">
+                                     Read Service Guide
+                                    </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Synthetic Data Generation -->
+<!--NOT YET <div id="synthetic" class="service-content">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-steel-blue mb-6">
+                            Synthetic Data Generation
+                        </h2>
+                        <p class="text-xl text-gray-600 mb-8">
+                            Create high-quality synthetic datasets that mirror real-world industrial conditions, enabling robust AI model training without the constraints of data availability or privacy concerns.
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-copper-orange rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-steel-blue mb-2">Physics-Based Simulation</h3>
+                                    <p class="text-gray-600">Generate realistic data using advanced physical simulations that accurately model metallurgical processes, material properties, and environmental conditions.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-copper-orange rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-steel-blue mb-2">Generative AI Models</h3>
+                                    <p class="text-gray-600">Utilize cutting-edge GANs and diffusion models to create diverse, high-quality synthetic datasets for training computer vision and predictive models.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-copper-orange rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-steel-blue mb-2">Domain Adaptation</h3>
+                                    <p class="text-gray-600">Fine-tune synthetic data generation to match your specific industrial processes, equipment, and quality standards for optimal model performance.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <button onclick="openContactModal()" class="btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg">
+                                Explore Synthetic Data Solutions
+                            </button>
+                        </div>
+                    </div>        
+
+                    <div>
+                        <div class="bg-gray-50 rounded-xl p-8">
+                            <h3 class="text-2xl font-display font-semibold text-steel-blue mb-6">ROI Calculator</h3>
+                            <div id="roiChart" style="height: 300px;"></div>
+                            
+                            <div class="mt-6 space-y-4">
+                                <div class="flex justify-between items-center p-4 bg-white rounded-lg">
+                                    <span class="text-gray-700">Data Collection Time Reduction</span>
+                                    <span class="font-bold text-copper-orange">80%</span>
+                                </div>
+                                <div class="flex justify-between items-center p-4 bg-white rounded-lg">
+                                    <span class="text-gray-700">Model Training Cost Savings</span>
+                                    <span class="font-bold text-copper-orange">60%</span>
+                                </div>
+                                <div class="flex justify-between items-center p-4 bg-white rounded-lg">
+                                    <span class="text-gray-700">Time to Market Acceleration</span>
+                                    <span class="font-bold text-copper-orange">75%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    -->
+            <!-- Education & Coaching -->
+            <div id="education" class="service-content">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-steel-blue mb-6">
+                            Education & Coaching
+                        </h2>
+                        <p class="text-xl text-gray-600 mb-8">
+                            Build internal AI capabilities with tailored training, workshops, and coaching for metallurgy and manufacturing professionals, delivered as short executive 
+                            briefings, intensive one-day workshops, or a 6-month continuous learning program with ongoing support.
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-copper-orange rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-steel-blue mb-2">AI Fundamentals for Industry</h3>
+                                    <p class="text-gray-600">Comprehensive introduction to AI concepts, machine learning algorithms, and their applications in metallurgy and manufacturing.</p>
+                                </div>
+                            </div>
+                            
+
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-copper-orange rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-steel-blue mb-2">Leading AI Transformation in Industry</h3>
+                                    <p class="text-gray-600">
+                                        Executive workshop guiding industry leaders to harness AI, make informed investment decisions, and implement AI solutions successfully across their operations.</p>
+                                </div>
+                            </div>
+
+
+                           <!-- <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-copper-orange rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-steel-blue mb-2">Hands-On Workshops. Technical Applications Deep Dive</h3>
+                                    <p class="text-gray-600">
+                                        Focused training on key AI applications (predictive maintenance, quality control, defect detection, digital twins etc)
+                                        and the models behind them, illustrated with real-world industrial case studies.</p>
+                                </div>
+                            </div> -->
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-copper-orange rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-steel-blue mb-2">
+                                        <!--Ongoing Coaching & Support-->
+                                        Hands-On Workshops. AI Applications Deep Dive</h3>
+                                    <p class="text-gray-600">
+                                        <!--Continuous support and guidance as your team implements AI solutions, including regular check-ins and problem-solving sessions.-->
+                                     Focused training on key AI applications (predictive maintenance, quality control, defect detection, digital twins etc)
+                                        and the models behind them, illustrated with real-world industrial case studies</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                     
+                        <div class="mt-8">
+                            <button onclick="openContactModal()" class="btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg">
+                                Discuss Training Programs
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="bg-gray-50 rounded-xl p-8">
+                            <h3 class="text-2xl font-display font-semibold text-steel-blue mb-6">Training Programs</h3>
+                            
+                            <div class="space-y-6">
+                                <div class="bg-white rounded-lg p-6 border-l-4 border-copper-orange">
+                                    <h4 class="font-semibold text-steel-blue mb-2">AI Fundamentals</h4>
+                                    <p class="text-gray-600 text-sm mb-3">1‑day program for industry professionals seeking further training in AI for metal production</p>
+                                    <!--<div class="text-copper-orange font-medium">Strategy & Implementation Roadmap</div>-->
+                                      <a href="resources/articles/AI_fundamentals_course_description_21.01.26.pdf"  target="_blank" rel="noopener noreferrer" class="inline-block mt-2 px-4 py-2 bg-copper-orange text-white font-medium rounded hover:bg-copper-orange/90">
+                                     Read More
+                                    </a>
+                                </div>
+                                
+                                <div class="bg-white rounded-lg p-6 border-l-4 border-copper-orange">
+                                    <h4 class="font-semibold text-steel-blue mb-2">AI Executive Workshops</h4>
+                                    <p class="text-gray-600 text-sm mb-3">Program for leadership teams</p>
+                                      <a href="resources/articles/Executive_course_description_21.01.26.pdf"  target="_blank" rel="noopener noreferrer" class="inline-block mt-2 px-4 py-2 bg-copper-orange text-white font-medium rounded hover:bg-copper-orange/90">
+                                     Read More
+                                    </a>
+                                </div>
+                                
+                 <!--               
+                                <div class="bg-white rounded-lg p-6 border-l-4 border-copper-orange">
+                                    <h4 class="font-semibold text-steel-blue mb-2">Continuous Learning Program</h4>
+                                    <p class="text-gray-600 text-sm mb-3">6-month ongoing support</p>
+                                    <div class="text-copper-orange font-medium">Monthly Workshops & Coaching</div>
+                                </div>
+                            -->               
+                                
+
+                                <div class="bg-white rounded-lg p-6 border-l-4 border-copper-orange">
+                                    <h4 class="font-semibold text-steel-blue mb-2">
+                                        <!--Continuous Learning Program-->
+                                    AI Applications Deep Dive</h4>
+                                    <p class="text-gray-600 text-sm mb-3">
+                                        <!--6-month ongoing support-->
+                                    1-day intensive for technical teams</p>
+                                      <a href="resources/articles/AI_applications_course_description_21.01.26.pdf"  target="_blank" rel="noopener noreferrer" class="inline-block mt-2 px-4 py-2 bg-copper-orange text-white font-medium rounded hover:bg-copper-orange/90">
+                                     Read More
+                                    </a>               
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+
+            <div id="utbildning" class="service-content">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <!-- Column 1: heading + paragraph + button -->
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-steel-blue mb-6">
+                            Utbildning & Livslångt Lärande
+                        </h2>
+                        <p class="text-xl text-gray-600 mb-8">
+                            Detta professionella utvecklingsprogram är utformat för att vidareutbilda metallproduktionsteam i praktiska tillämpningar av artificiell intelligens. 
+                            Målet är att ge riktad, hands‑on AI‑kunskap som ingenjörer och teknisk personal kan omsätta direkt i sitt dagliga arbete för att höja 
+                            produktionseffektivitet, förbättra kvalitetskontroll, optimera underhållsverksamhet och stärka hållbarheten i metallurgiska miljöer.
+                             Utbildningsprogrammet har utvecklats i samarbete med KTH och Jernkontoret och erbjuds nu i samarbete med Bergsskolan. För närvarande finns två workshops 
+                             att anmäla sig till via Bergsskolans webbplats (
+                             <a href="https://bergsskolan.se/foretag-naringsliv/kompetensutveckling/" target="_blank" rel="noopener noreferrer"
+                            class="text-steel-blue underline"> Anmäl dig här</a>). Den framtagna utbildningsmodulen kan skräddarsys och anpassas efter er organisations specifika behov,
+                              processer och tekniska mognad. Kontakta oss gärna för mer information
+                        </p>
+                
+                        <div class="mt-8">
+                            <button onclick="openContactModal()" class="btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg">
+                                Diskutera utbildningar
+                            </button>
+                        </div>
+                    </div>
+                     <!-- Column 2-->
+                     <div>
+                        <div class="bg-white rounded-lg p-6 border-l-4 border-copper-orange">
+                                    <h4 class="font-semibold text-steel-blue mb-2">
+                                    AI‑grunder</h4>
+                                    <p class="text-gray-600 text-sm mb-3">
+                                    1‑dagars program för yrkesverksamma inom industrin som vill vidareutbilda sig i AI för metallproduktion.</p>
+                                      <a href="resources/articles/AI_fundamentals_course_description_sv_21.01.26.pdf"  target="_blank" rel="noopener noreferrer" class="inline-block mt-2 px-4 py-2 bg-copper-orange text-white font-medium rounded hover:bg-copper-orange/90">
+                                     Läs mer
+                                    </a>               
+                        </div>
+                        <div class="bg-white rounded-lg p-6 border-l-4 border-copper-orange">
+                                    <h4 class="font-semibold text-steel-blue mb-2">
+                                    AI Executive Workshops</h4>
+                                    <p class="text-gray-600 text-sm mb-3">
+                                    1‑dagars program för ledningsgrupper</p>
+                                      <a href="resources/articles/Executive_course_description_sv_21.01.26.pdf"  target="_blank" rel="noopener noreferrer" class="inline-block mt-2 px-4 py-2 bg-copper-orange text-white font-medium rounded hover:bg-copper-orange/90">
+                                     Läs mer
+                                    </a>               
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Case Studies Carousel -->
+  <!--ACTIVATE LATER  <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-display font-bold text-steel-blue mb-6">
+                    Success Stories
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Real results from our AI implementations in metallurgy and manufacturing
+                </p>
+            </div>
+            
+            <div class="splide" id="case-studies-carousel">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-xl p-8 shadow-lg">
+                                <img src="https://kimi-web-img.moonshot.cn/img/www.mechdaily.com/2055789644bb8d8d8a24be0462dc990662d03d75.webp" alt="Steel Manufacturing Case Study" class="w-full h-48 object-cover rounded-lg mb-6">
+                                <h3 class="text-2xl font-display font-semibold text-steel-blue mb-4">Predictive Quality Control</h3>
+                                <p class="text-gray-600 mb-6">Implemented AI-powered quality control system for a major steel producer, reducing defect rates by 40% and improving overall product quality.</p>
+                                <div class="grid grid-cols-3 gap-4 text-center">
+                                    <div>
+                                        <div class="text-2xl font-bold text-copper-orange">40%</div>
+                                        <div class="text-sm text-gray-600">Defect Reduction</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-copper-orange">$2M</div>
+                                        <div class="text-sm text-gray-600">Annual Savings</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-copper-orange">6mo</div>
+                                        <div class="text-sm text-gray-600">ROI Timeline</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-xl p-8 shadow-lg">
+                                <img src="https://kimi-web-img.moonshot.cn/img/openautomationsoftware.com/8782a277b1fd52abcfb7d1ee4ef5fb97f19f9fda.jpg" alt="AI Systems Case Study" class="w-full h-48 object-cover rounded-lg mb-6">
+                                <h3 class="text-2xl font-display font-semibold text-steel-blue mb-4">Predictive Maintenance</h3>
+                                <p class="text-gray-600 mb-6">Developed machine learning models to predict equipment failures in a mining operation, reducing unplanned downtime by 25%.</p>
+                                <div class="grid grid-cols-3 gap-4 text-center">
+                                    <div>
+                                        <div class="text-2xl font-bold text-copper-orange">25%</div>
+                                        <div class="text-sm text-gray-600">Downtime Reduction</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-copper-orange">$1.5M</div>
+                                        <div class="text-sm text-gray-600">Cost Avoidance</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-copper-orange">95%</div>
+                                        <div class="text-sm text-gray-600">Prediction Accuracy</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-xl p-8 shadow-lg">
+                                <img src="https://kimi-web-img.moonshot.cn/img/www.10eqs.com/b154860dd9935cb3b196e4cbefe021f893984f5d.jpg" alt="Data Analytics Case Study" class="w-full h-48 object-cover rounded-lg mb-6">
+                                <h3 class="text-2xl font-display font-semibold text-steel-blue mb-4">Process Optimization</h3>
+                                <p class="text-gray-600 mb-6">Used synthetic data to optimize blast furnace operations, increasing output by 10.5% while reducing energy consumption by 5%.</p>
+                                <div class="grid grid-cols-3 gap-4 text-center">
+                                    <div>
+                                        <div class="text-2xl font-bold text-copper-orange">10.5%</div>
+                                        <div class="text-sm text-gray-600">Output Increase</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-copper-orange">5%</div>
+                                        <div class="text-sm text-gray-600">Energy Reduction</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-copper-orange">11%</div>
+                                        <div class="text-sm text-gray-600">Emission Reduction</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Contact CTA -->
+    <!--old colour <section class="py-20 bg-steel-blue text-white">-->
+    <section style="background-color: rgb(4, 21, 58);" class="py-20 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-display font-bold mb-6">
+                Ready to Transform Your Operations?
+            </h2>
+            <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                Let's discuss which service is right for your organization and create a custom implementation plan.
+            </p>
+            <button onclick="openContactModal()" class="btn-primary text-white px-12 py-4 rounded-lg font-semibold text-lg">
+                Book Your Consultation
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+   <!--old colour <footer class="bg-charcoal text-white py-12">-->
+     <footer class="bg-dark-navy-blue text-white py-12"> 
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-2xl font-display font-bold mb-4">
+                    Borgx Consulting
+                </div>
+                <p class="text-gray-400 mb-6">Transforming industry through artificial intelligence</p>
+                <div class="border-t border-gray-700 pt-8">
+                    <p class="text-gray-400 text-sm">
+                        © 2025 BorgX Consulting. All rights reserved. | From Data to Innovation
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!--old  Contact Modal -->
+    <!-- old <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-8 relative">
+            <button onclick="closeContactModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            
+            <h3 class="text-2xl font-display font-bold text-steel-blue mb-6">Book a Consultation</h3>
+            
+            <form id="contactForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                    <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Company</label>
+                    <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Service Interest</label>
+                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent">
+                        <option>Data & AI Readiness Audit</option>
+                        <option>Synthetic Data Generation</option>
+                        <option>Education & Coaching</option>
+                        <option>General Consultation</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                    <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-copper-orange focus:border-transparent"></textarea>
+                </div>
+                <button type="submit" class="w-full btn-primary text-white py-3 rounded-lg font-semibold">
+                    Book Consultation
+                </button>
+            </form>
+        </div>
+    </div> -->
+
+        <!-- Contact Modal -->
+    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-xl max-w-2xl w-full p-8 relative" style="max-height: 90vh; overflow-y: auto;">
+        <button onclick="closeContactModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-10">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        
+        <h3 class="text-2xl font-display font-bold text-steel-blue mb-6">Book a Consultation</h3>
+        
+        <!-- Calendly inline widget begin -->
+        <div class="calendly-inline-widget" data-url="https://calendly.com/dr-d-berg987/30min" style="min-width:320px;height:700px;"></div>
+        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+        <!-- Calendly inline widget end -->
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Service tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.service-tab');
+            const contents = document.querySelectorAll('.service-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const service = this.dataset.service;
+                    
+                    // Update tabs
+                    tabs.forEach(t => {
+                        t.classList.remove('active');
+                        t.classList.add('bg-gray-100', 'text-charcoal', 'hover:bg-gray-200');
+                    });
+                    this.classList.add('active');
+                    this.classList.remove('bg-gray-100', 'text-charcoal', 'hover:bg-gray-200');
+                    
+                    // Update content
+                    contents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(service).classList.add('active');
+                });
+            });
+            
+            // Initialize ROI chart
+            initROIChart();
+            
+            // Initialize carousel
+            initCaseStudiesCarousel();
+        });
+        
+        function initROIChart() {
+            const chart = echarts.init(document.getElementById('roiChart'));
+            
+            const option = {
+                tooltip: {
+                    trigger: 'item'
+                },
+                series: [{
+                    name: 'ROI Metrics',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: {
+                        borderRadius: 10,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    },
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '18',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: [
+                        { value: 80, name: 'Time Savings', itemStyle: { color: '#E67E22' } },
+                        { value: 60, name: 'Cost Reduction', itemStyle: { color: '#FF6B35' } },
+                        { value: 75, name: 'Speed to Market', itemStyle: { color: '#F39C12' } }
+                    ]
+                }]
+            };
+            
+            chart.setOption(option);
+        }
+        
+        function initCaseStudiesCarousel() {
+            new Splide('#case-studies-carousel', {
+                type: 'loop',
+                perPage: 3,
+                perMove: 1,
+                gap: '2rem',
+                autoplay: true,
+                interval: 5000,
+                breakpoints: {
+                    1024: {
+                        perPage: 2,
+                    },
+                    768: {
+                        perPage: 1,
+                    }
+                }
+            }).mount();
+        }
+    </script>
+</body>
+</html>
